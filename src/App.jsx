@@ -10,36 +10,40 @@ import { action as updateOrderAction } from "./features/order/UpdateOrder";
 import AppLayout from "./ui/AppLayout";
 import Error from "./ui/Error";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    Component: AppLayout,
-    // errorElement: <Error />,
-    ErrorBoundary: Error,
-    children: [
-      { index: true, Component: Home },
-      { path: "cart", Component: Cart },
-      {
-        path: "menu",
-        Component: Menu,
-        ErrorBoundary: Error, // to ensure the error displayed withinn the layout
-        loader: menuLoader,
-      },
-      {
-        path: "order",
-        children: [
-          { path: "new", Component: CreateOrder, action: createOrderAction },
-          {
-            path: ":id",
-            Component: Order,
-            loader: orderLoader,
-            action: updateOrderAction,
-          },
-        ],
-      },
-    ],
-  },
-]);
+const basename = import.meta.env.MODE === "production" ? "/Redux-Cart" : "/";
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      Component: AppLayout,
+      // errorElement: <Error />,
+      ErrorBoundary: Error,
+      children: [
+        { index: true, Component: Home },
+        { path: "cart", Component: Cart },
+        {
+          path: "menu",
+          Component: Menu,
+          ErrorBoundary: Error, // to ensure the error displayed withinn the layout
+          loader: menuLoader,
+        },
+        {
+          path: "order",
+          children: [
+            { path: "new", Component: CreateOrder, action: createOrderAction },
+            {
+              path: ":id",
+              Component: Order,
+              loader: orderLoader,
+              action: updateOrderAction,
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  { basename }
+);
 
 function App() {
   return <RouterProvider router={router} />;

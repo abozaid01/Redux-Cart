@@ -96,7 +96,7 @@ function CreateOrder() {
               required
             />
             {!address && (
-              <span className="absolute right-0.5 bottom-0.5">
+              <span className="absolute right-0.5 top-0.5">
                 <Button
                   type="small"
                   disabled={addressLoading}
@@ -109,12 +109,12 @@ function CreateOrder() {
                 </Button>
               </span>
             )}
+            {addressError && (
+              <p className="text-sm text-red-700 bg-red-100 rounded-md p-2 mt-2">
+                {addressError}
+              </p>
+            )}
           </div>
-          {addressError && (
-            <p className="text-sm text-red-700 bg-red-100 rounded-md p-2 mt-2">
-              {addressError}
-            </p>
-          )}
         </div>
 
         <div className="mb-12 flex items-center gap-4 font-medium">
